@@ -75,3 +75,39 @@ public class Solution42576 {
     System.out.println(hashSolution.solution(participant3, completion3));
   }
 }
+
+
+==================================================================================================================
+  
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    public String solution(String[] participant, String[] completion) {
+        String answer = "";
+        HashMap<String, Integer> participantCountMap = getCountPerName(participant);
+        HashMap<String, Integer> completionCountMap = getCountPerName(completion);
+        
+        for(Map.Entry<String, Integer> entry : participantCountMap.entrySet()) {
+            String participantName = entry.getKey();
+            int participantCount = entry.getValue();
+            
+            if (completionCountMap.get(participantName) == null || completionCountMap.get(participantName) != participantCount) {
+                answer = participantName;
+                break;
+            }
+        }
+        
+        return answer;
+    }
+    
+    public HashMap<String, Integer> getCountPerName(String[] names) {
+        HashMap<String, Integer> nameCount = new HashMap<>(names.length);
+
+        for(int i=0; i < names.length; i++) {
+            String name = names[i];
+            nameCount.compute(name, (k,v) -> (v == null)? 1 : v + 1);
+        }
+        return nameCount;
+    }
+}
