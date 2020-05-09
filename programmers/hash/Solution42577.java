@@ -32,3 +32,26 @@ public class Solution42577 {
     System.out.println(solution.solution(phone_book3));
   }
 }
+
+
+==================================================================================================
+  
+import java.util.*;
+
+class Solution {
+    public boolean solution(String[] phone_book) {
+        boolean answer = true;
+        Arrays.sort(phone_book, Comparator.comparingInt(String::length));
+        
+        for(int i=0; (answer && i < phone_book.length); i++) {
+            String phoneNumber = phone_book[i];
+            for(int k=i+1; k < phone_book.length; k++) {
+                if (phone_book[k].startsWith(phoneNumber)) {
+                    answer = false;
+                    break;
+                }
+            }
+        }
+        return answer;
+    }
+}
