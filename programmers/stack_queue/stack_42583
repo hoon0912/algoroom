@@ -30,7 +30,7 @@ public class stack_42583 {
         System.out.println(answer);
     }
 
-    public static int solution1(int bridge_length, int weight, int[] truck_weights) {  // success
+    public static int solution1(int bridge_length, int weight, int[] truck_weights) { 
         Queue<truckInfo> truckOnBridge = new LinkedList<>();
         int nextTruck = 0;
         int truckWeightsOnBridge = 0;

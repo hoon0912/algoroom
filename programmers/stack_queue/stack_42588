@@ -49,36 +49,4 @@ public class stack_42588 {
 
         return result;
     }
-
-    public static int[] solution1(int[] heights) {
-        Stack<Integer> bigTowerIndex = new Stack<>();
-        Stack<Integer> bigTowerHeight = new Stack<>();
-
-        int LAST_INDEX = heights.length - 1;
-        for(int i = LAST_INDEX; i >= 0; i--) {
-            if (bigTowerHeight.empty() || bigTowerHeight.peek() < heights[i]) {
-                bigTowerHeight.push(heights[i]);
-                bigTowerIndex.push(i);
-            }
-        }
-
-        System.out.println(bigTowerHeight);
-        System.out.println(bigTowerIndex);
-
-        int[] result = new int[heights.length];
-        int towerIndex = 0;
-        for(int i=0; i <= LAST_INDEX; i++) {
-            if (!bigTowerIndex.empty() && i > bigTowerIndex.peek()) {
-                towerIndex = bigTowerIndex.pop() + 1;
-            }
-            result[i] = towerIndex;
-        }
-
-        for(int i=0; i<= LAST_INDEX; i++) {
-            System.out.print(result[i] + " ");
-        }
-
-        int[] test = {0,0,0,0,0};
-        return test;
-    }
 }
