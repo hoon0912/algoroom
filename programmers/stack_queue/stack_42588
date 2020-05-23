@@ -1,0 +1,84 @@
+package Problem;
+
+import java.util.Stack;
+
+public class stack_42588 {
+    public static void main(String[] args) {
+        int[] heights = {6,9,5,7,4};
+        int[] result1 = solution2(heights);
+    }
+
+    public static class towerInfo {
+        private final int biggerTower;
+        private final int smallerTower;
+
+        public towerInfo(int biggerTower, int smallerTower) {
+            this.biggerTower = biggerTower;
+            this.smallerTower = smallerTower;
+        }
+
+        public int getBiggerTower() {
+            return biggerTower;
+        }
+
+        public int getSmallerTower() {
+            return smallerTower;
+        }
+    }
+
+    public static int[] solution2(int[] heights) {
+        Stack<towerInfo> s = new Stack<>();
+
+        for(int i=0; i < heights.length; i++) {
+            int currentHeight = heights[i];
+            for(int j = i + 1; (j < heights.length && currentHeight > heights[j]); j++) {
+                s.push(new towerInfo(i, j));
+            }
+        }
+
+        int[] result = new int[heights.length];
+        while(!s.empty()) {
+            towerInfo info = s.pop();
+            int smallerTowerIndex = info.getSmallerTower();
+            int biggerTowerIndex = info.getBiggerTower();
+
+            if (result[smallerTowerIndex] == 0) {
+                result[smallerTowerIndex] = biggerTowerIndex + 1;
+            }
+        }
+
+        return result;
+    }
+
+    public static int[] solution1(int[] heights) {
+        Stack<Integer> bigTowerIndex = new Stack<>();
+        Stack<Integer> bigTowerHeight = new Stack<>();
+
+        int LAST_INDEX = heights.length - 1;
+        for(int i = LAST_INDEX; i >= 0; i--) {
+            if (bigTowerHeight.empty() || bigTowerHeight.peek() < heights[i]) {
+                bigTowerHeight.push(heights[i]);
+                bigTowerIndex.push(i);
+            }
+        }
+
+        System.out.println(bigTowerHeight);
+        System.out.println(bigTowerIndex);
+
+        int[] result = new int[heights.length];
+        int towerIndex = 0;
+        for(int i=0; i <= LAST_INDEX; i++) {
+            if (!bigTowerIndex.empty() && i > bigTowerIndex.peek()) {
+                towerIndex = bigTowerIndex.pop() + 1;
+            }
+            result[i] = towerIndex;
+        }
+
+        for(int i=0; i<= LAST_INDEX; i++) {
+            System.out.print(result[i] + " ");
+        }
+
+        int[] test = {0,0,0,0,0};
+        return test;
+    }
+}
