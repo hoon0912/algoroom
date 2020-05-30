@@ -1,0 +1,47 @@
+package Problem;
+
+import java.util.*;
+
+public class stack_42586 {
+    public static void main(String[] args) {
+        int[] progress1 = {93,30,55};
+        int[] speeds1 = {1,30,5};
+
+        int[] result = solution(progress1, speeds1);
+    }
+
+    public static int[] solution(int[] progress, int[] speed) {
+        Queue<Integer> delayQ = new LinkedList<>();
+
+        for(int i=0; i < progress.length; i++) {
+            int currentProgress = progress[i];
+            int currentSpeed = speed[i];
+
+            if ((100 - currentProgress) % currentSpeed == 0){
+                delayQ.add((int)((100 - currentProgress) / currentSpeed));
+            }
+            else {
+                delayQ.add((int)((100 - currentProgress) / currentSpeed) + 1);
+            }
+        }
+
+        Queue<Integer> resultQ = new LinkedList<>();
+        while(!delayQ.isEmpty()) {
+            int delayDay = delayQ.poll();
+            int deployCount = 1;
+
+            while(!delayQ.isEmpty() && delayQ.peek() <= delayDay) {
+                delayQ.poll();
+                deployCount++;
+            }
+            resultQ.add(deployCount);
+        }
+
+        int[] answer = new int[resultQ.size()];
+        int answer_i = 0;
+        while(!resultQ.isEmpty()) {
+            answer[answer_i++] = resultQ.poll();
+        }
+        return answer;
+    }
+}

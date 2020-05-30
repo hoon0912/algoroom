@@ -1,0 +1,25 @@
+package Problem;
+
+public class stack_42584 {
+    public static void main(String[] args) {
+        int[] prices = {1, 2, 3, 2, 3, 1};
+        int[] result = solution(prices);
+        for(int i=0; i<result.length; i++) {
+            System.out.println(result[i]);
+        }
+    }
+
+    public int[] solution(int[] prices) {
+        int[] answer = new int[prices.length];
+
+        for(int i=0; i<prices.length-1; i++) {
+            int length = 0;
+            for(int j=i+1; j < prices.length; j++) {
+                length++;
+                if (prices[i] > prices[j]) break;
+            }
+            answer[i] = length;
+        }
+        return answer;
+    }
+}

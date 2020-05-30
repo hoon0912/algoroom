@@ -1,0 +1,40 @@
+package Problem;
+
+import java.util.Stack;
+
+public class stack_42585 {
+    public static void main(String[] args) {
+        String arrangement = "()(((()())(())()))(())";
+        int result = solution(arrangement);
+        System.out.println(result);
+    }
+
+    public static int solution(String arrangement) {
+        int answer = 0;
+        Stack<Character> barStack = new Stack<>();
+        Stack<Character> candidateStack = new Stack<>();
+
+        for(int i=0; i < arrangement.length(); i++) {
+            char x = arrangement.charAt(i);
+
+            if (x == '(') {
+                if (candidateStack.isEmpty()) candidateStack.push(x);
+                else {
+                    barStack.push(candidateStack.pop());
+                    candidateStack.push(x);
+                }
+            }
+            else if (x == ')') {
+                if (candidateStack.isEmpty()) {
+                    barStack.pop();
+                    answer++;
+                }
+                else {
+                    candidateStack.pop();
+                    answer += barStack.size();
+                }
+            }
+        }
+        return answer;
+    }
+}
