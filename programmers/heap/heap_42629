@@ -1,0 +1,29 @@
+import java.util.Collections;
+import java.util.PriorityQueue;
+
+public class heap_42629 {
+    public static void main(String[] args) {
+        int stock = 4;
+        int[] dates = {4,10,15};
+        int[] supplies = {20,5,10};
+        int k = 30;
+        int result = solution(stock, dates, supplies, k);
+        System.out.println(result);
+    }
+
+
+    public static int solution(int stock, int[] dates, int[] supplies, int k) {
+        PriorityQueue<Integer> availableSupply = new PriorityQueue<>(Collections.reverseOrder()); // max heap
+        int answer = 0;
+        int i = 0;
+        while (stock < k) {
+            for(; i < dates.length; i++) {
+                if (dates[i] > stock) break;
+                else availableSupply.add(supplies[i]);
+            }
+            stock += availableSupply.poll();
+            answer++;
+        }
+        return answer;
+    }
+}
