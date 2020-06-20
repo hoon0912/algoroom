@@ -1,78 +1,61 @@
 package bruteforce;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.HashSet;
+import java.util.Set;
 
-// 모의고사
-public class Solution42840 {
+// 숫자야구게임
+public class Solution42841 {
+  public int solution(int[][] baseball) {
+    int answer;
 
-  static class Student implements Comparable<Student> {
-
-    int number;
-    int[] dap;
-    int score;
-
-    public Student(int number, int[] dap, int[] answers) {
-      this.number = number;
-      this.dap = dap;
-      this.score = matching(answers);
-    }
-
-    public int matching(int[] answers) {
-      int score = 0;
-      for (int i = 0; i < answers.length; i++) {
-        if (dap[i % dap.length] == answers[i]) {
-          score++;
+    Set<String> answerList = new HashSet<>();
+    for (int i = 1; i <= 9; i++) {
+      for (int j = 1; j <= 9; j++) {
+        if (i == j)
+          continue;
+        for (int k = 1; k <= 9; k++) {
+          if (j == k || i == k)
+            continue;
+          answerList.add(i + "" + j + "" + k);
         }
       }
-      return score;
     }
 
-    @Override
-    public int compareTo(Student o) {
-      if (this.score == o.score) {
-        return this.number - o.number;
-      }
-      return o.score - this.score;
-    }
+    answer = (int) answerList.stream().filter(number -> check(number, baseball)).count();
+
+    return answer;
   }
 
+  private boolean check(String number, int[][] baseball) {
+    boolean checkFlag = true;
+    for (int i = 0; i < baseball.length; i++) {
+      int strike = 0;
+      int ball = 0;
+      String targetNumber = baseball[i][0] + "";
 
-  public int[] solution(int[] answers) {
-    List<Integer> answer = new ArrayList<>();
+      for (int a = 0; a < 3; a++) {
+        for (int b = 0; b < 3; b++) {
+          if (number.charAt(a) != targetNumber.charAt(b)) continue;
 
-    int[] student1 = {1, 2, 3, 4, 5};
-    int[] student2 = {2, 1, 2, 3, 2, 4, 2, 5};
-    int[] student3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+          if (a == b) {
+            strike++;
+          } else {
+            ball++;
+          }
 
-    PriorityQueue<Student> priorityQueue = new PriorityQueue<>();
-    priorityQueue.add(new Student(1, student1, answers));
-    priorityQueue.add(new Student(2, student2, answers));
-    priorityQueue.add(new Student(3, student3, answers));
-
-    int max = 0;
-    while (!priorityQueue.isEmpty()) {
-      Student student = priorityQueue.poll();
-      if (max > student.score) break;
-      if (max < student.score) {
-        max = student.score;
+        }
       }
-      answer.add(student.number);
+      if (strike != baseball[i][1] || ball != baseball[i][2]) {
+        checkFlag = false;
+        break;
+      }
     }
-
-    return answer.stream().mapToInt(Integer::valueOf).toArray();
+    return checkFlag;
   }
 
   public static void main(String[] args) {
-    Solution42840 solution = new Solution42840();
-    int[] answers = new int[]{1, 2, 3, 4, 5};
-    int[] result = solution.solution(answers);
-    System.out.println(Arrays.toString(result));
-
-    answers = new int[]{1, 3, 2, 4, 2};
-    result = solution.solution(answers);
-    System.out.println(Arrays.toString(result));
+    Solution42841 solution = new Solution42841();
+    int[][] baseball = {{123, 1, 1}, {356, 1, 0}, {327, 2, 0}, {489, 0, 1}};
+    System.out.println(solution.solution(baseball)); // 2
   }
 }
