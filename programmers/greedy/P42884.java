@@ -2,13 +2,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 class Solution {
     public int solution(int[][] routes) {
-        Arrays.sort(routes, Comparator.comparingInt(a -> a[1]));
+        Arrays.sort(routes, Comparator.comparingInt(a -> a[0]));
         int answer = 0;
         for(int i = 0, len = routes.length, minEnd = -30001; i<len; i++){
             int[] route = routes[i];
-            if(route[0]<=minEnd){//Áßº¹µÈ ¹üÀ§
+            if(route[0]<=minEnd){//ì¤‘ë³µëœ ë²”ìœ„
                 minEnd = Math.min(route[1],minEnd);
-            }else{//Áßº¹µÇÁö ¾ÊÀº ¹üÀ§
+            }else{//ì¤‘ë³µë˜ì§€ ì•Šì€ ë²”ìœ„
                 answer++;
                 minEnd = route[1];
             }
