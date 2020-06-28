@@ -1,36 +1,58 @@
 package greedy;
 
-// 큰 수 만들기
-public class Solution42883 {
-  public String solution(String number, int k) {
-    StringBuilder sb = new StringBuilder();
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-    char max;
-    int index = 0;
+// 단속카메라
+public class Solution42884 {
+  static class Route implements Comparable<Route> {
+    private final int start;
+    private final int end;
 
-    for(int i = 0; i < number.length() - k; i++) {
-      max = '0';
-      for(int j = index; j <= i + k; j++) {
-        if(max < number.charAt(j)) {
-          max = number.charAt(j);
-          index = j + 1;
-        }
-      }
-      sb.append(max);
+    public Route(int start, int end) {
+      this.start = start;
+      this.end = end;
     }
 
-    return sb.toString();
+    public int getStart() {
+      return start;
+    }
+
+    public int getEnd() {
+      return end;
+    }
+
+    @Override
+    public int compareTo(Route o) {
+      return this.end - o.end;
+    }
+  }
+
+  public int solution(int[][] routes) {
+    int answer = 0;
+    int camera = -30001;
+
+    List<Route> routeList = new ArrayList<>();
+    for (int[] route : routes) {
+      routeList.add(new Route(route[0], route[1]));
+    }
+    routeList.sort(Comparator.naturalOrder());
+
+    for (Route route : routeList) {
+      if (camera < route.getStart()) {
+        camera = route.getEnd();
+        answer++;
+      }
+    }
+
+    return answer;
   }
 
   public static void main(String[] args) {
-    Solution42883 solution = new Solution42883();
-    String result = solution.solution("1924", 2); // 94
-    System.out.println("result : "+ result);
-
-    result = solution.solution("1231234", 3); // 3234
-    System.out.println("result : "+ result);
-
-    result = solution.solution("4177252841", 4); // 775841
-    System.out.println("result : "+ result);
+    Solution42884 solution = new Solution42884();
+    int[][] routes = new int[][]{{-20, 15}, {-14, -5}, {-18, -13}, {-5, -3}};
+    int result = solution.solution(routes); // w
+    System.out.println("result : " + result);
   }
 }
